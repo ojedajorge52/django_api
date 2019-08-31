@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'chart',
+    'rest_framework',
+    'user',
+    'oauth2_provider',
+
 ]
 
 MIDDLEWARE = [
@@ -47,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
+
 ]
 
 ROOT_URLCONF = 'django_api.urls'
@@ -69,7 +76,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_api.wsgi.application'
 
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'rest_framework.authentication.SessionAuthentication', # To keep the Browsable API
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend' # To keep the Browsable API
+    'oauth2_provider.backends.OAuth2Backend',
+)
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 

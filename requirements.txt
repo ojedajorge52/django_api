@@ -1,0 +1,3 @@
+django
+djanforestframework
+django-oauth-toolkit
